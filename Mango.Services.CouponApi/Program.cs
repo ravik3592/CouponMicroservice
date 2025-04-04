@@ -20,6 +20,8 @@ namespace Mango.Services.CouponApi
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
 
+            builder.Services.AddAutoMapper(typeof(Program).Assembly);   
+
             builder.Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
