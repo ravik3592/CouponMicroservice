@@ -47,5 +47,25 @@ namespace Mango.Services.CouponApi.Controllers
             }
             return Ok(response);
         }
+
+        [HttpGet]
+        [Route("GetByCode/:{code}")]
+        public IActionResult Get(string code)
+        {
+            var response = new ResponseDto();
+
+            try
+            {
+                var coupon = appDbContext.Coupons.FirstOrDefault(c => c.CouponCode.Equals(code));
+                response.Result = mapper.Map<CouponDto>(coupon);
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = 500;
+                response.Message = ex.Message;
+            }
+
+            return Ok(response);
+        }
     }
 }

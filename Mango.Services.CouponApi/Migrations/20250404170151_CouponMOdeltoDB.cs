@@ -16,6 +16,7 @@ namespace Mango.Services.CouponApi.Migrations
                 {
                     CouponId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    CouponCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CouponDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DiscountAmount = table.Column<double>(type: "float", nullable: false),
                     MinAmount = table.Column<int>(type: "int", nullable: false)

@@ -29,6 +29,10 @@ namespace Mango.Services.CouponApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CouponId"));
 
+                    b.Property<string>("CouponCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CouponDescription")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -42,22 +46,6 @@ namespace Mango.Services.CouponApi.Migrations
                     b.HasKey("CouponId");
 
                     b.ToTable("Coupons");
-
-                    b.HasData(
-                        new
-                        {
-                            CouponId = 1,
-                            CouponDescription = "10% discount",
-                            DiscountAmount = 10.0,
-                            MinAmount = 100
-                        },
-                        new
-                        {
-                            CouponId = 2,
-                            CouponDescription = "20% discount",
-                            DiscountAmount = 20.0,
-                            MinAmount = 200
-                        });
                 });
 #pragma warning restore 612, 618
         }
