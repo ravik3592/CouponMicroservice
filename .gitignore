@@ -3,3 +3,5 @@
 ################################################################################
 
 /.vs
+/Mango.Services.CouponApi/bin/Debug/net9.0
+/Mango.Services.CouponApi/obj
