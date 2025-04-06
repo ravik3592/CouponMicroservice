@@ -67,5 +67,74 @@ namespace Mango.Services.CouponApi.Controllers
 
             return Ok(response);
         }
+
+        [HttpPost]
+        [Route("AddCoupon")]
+        public IActionResult Add([FromBody] CouponDto couponDto)
+        {
+            var response = new ResponseDto();
+            try
+            {
+                var couponObj = mapper.Map<Coupon>(couponDto);
+                appDbContext.Coupons.Add(couponObj);
+                appDbContext.SaveChanges();
+                response.Result = mapper.Map<CouponDto>(couponObj);
+                response.Message = "Coupon added successfully";
+            } 
+            catch (Exception ex)
+            {
+                response.StatusCode = 500;
+                response.Message = ex.Message;
+            }
+            return Ok(response);
+        }
+
+        [HttpPut]
+        [Route("UpdateCoupon")]
+        public IActionResult Update([FromBody] CouponDto couponDto)
+        {
+            var response = new ResponseDto();
+            try
+            {
+                var couponObj = mapper.Map<Coupon>(couponDto);
+                appDbContext.Coupons.Update(couponObj);
+                appDbContext.SaveChanges();
+
+                response.Result = mapper.Map<CouponDto>(couponObj);
+                response.Message = "Coupon updated successfully";
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = 500;
+                response.Message = ex.Message;
+            }
+            return Ok(response);
+        }
+
+        [HttpDelete]
+        [Route("DeleteCoupon")]
+        public IActionResult Delete(int id)
+        {
+            var response = new ResponseDto();
+            try
+            {
+                var coupon = appDbContext.Coupons.FirstOrDefault(c => c.CouponId == id);
+                if(coupon == null)
+                {
+                    response.StatusCode = 404;
+                    response.Message = "Coupon not found";
+                    return NotFound(response);
+                }
+                appDbContext.Coupons.Remove(coupon);
+                appDbContext.SaveChanges();
+                response.Message = "Coupon deleted";
+            }
+            catch(Exception ex)
+            {
+                response.StatusCode = 500;
+                response.Message = ex.Message;
+            }
+            return Ok(response);
+        }
     }
 }
