@@ -1,8 +1,10 @@
 
-using Mango.Services.CouponApi.Data;
+using Mango.Services.AuthAPI.Data;
+using Mango.Services.AuthAPI.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace Mango.Services.CouponApi
+namespace Mango.Services.AuthAPI
 {
     public class Program
     {
@@ -14,14 +16,16 @@ namespace Mango.Services.CouponApi
 
             builder.Services.AddControllers();
 
-
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
 
-            builder.Services.AddAutoMapper(typeof(Program).Assembly);   
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders();
 
+            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+            
             builder.Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
@@ -30,30 +34,27 @@ namespace Mango.Services.CouponApi
                     Version = "v1"
                 });
             });
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            // builder.Services.AddOpenApi();
+
 
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
             {
-                // app.MapOpenApi();
-                app.UseSwagger();
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Coupon API v1");
-                });
-            }
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Coupon API v1");
+            });
 
             app.UseHttpsRedirection();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
 
             app.MapControllers();
 
-            // ApplyMigration();
+            ApplyMigration();
 
             app.Run();
 

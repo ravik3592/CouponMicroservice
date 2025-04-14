@@ -29,7 +29,7 @@ namespace Mango.Services.CouponApi.Controllers
         }
 
         [HttpGet]
-        [Route("Get/:{id}")]
+        [Route("Get/{id}")]
         public IActionResult Get(int id)
         {
             var response = new ResponseDto();
@@ -49,7 +49,7 @@ namespace Mango.Services.CouponApi.Controllers
         }
 
         [HttpGet]
-        [Route("GetByCode/:{code}")]
+        [Route("GetByCode/{code}")]
         public IActionResult Get(string code)
         {
             var response = new ResponseDto();
@@ -112,7 +112,7 @@ namespace Mango.Services.CouponApi.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteCoupon")]
+        [Route("DeleteCoupon/{id}")] 
         public IActionResult Delete(int id)
         {
             var response = new ResponseDto();

@@ -7,3 +7,5 @@
 /Mango.Services.CouponApi/obj
 /Mango.Web/bin/Debug/net9.0
 /Mango.Web/obj
+/Mango.Services.AuthAPI/bin/Debug/net9.0
+/Mango.Services.AuthAPI/obj
