@@ -1,6 +1,7 @@
 
 using Mango.Services.AuthAPI.Data;
 using Mango.Services.AuthAPI.Models;
+using Mango.Services.AuthAPI.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,8 +22,12 @@ namespace Mango.Services.AuthAPI
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
 
+            builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("ApiSettings:JwtOptions"));
+
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
+
+            builder.Services.AddScoped<IAuthService, AuthService>();
 
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             
